@@ -1,0 +1,8 @@
+beautifulsoup4
+loguru
+openai
+feedparser
+requests
+python-telegram-bot
+pyTelegramBotAPI
+ConfigParser
