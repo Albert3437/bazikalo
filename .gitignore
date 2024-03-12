@@ -1,0 +1,5 @@
+/__pycache__
+/latest
+config.ini
+debug.log
+posts.db
