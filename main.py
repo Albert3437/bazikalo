@@ -103,7 +103,7 @@ def run():
                         db = PostDatabase()
                         post_time = get_post_time(db, article['published'])
                         db.add_record(article['title'], article['short_data'], article['media_content'][0]['url'], post_time)
-                        send_test_article(db.get_last_id(), f'*{article['title']}*\n\n{article['short_data']}\n\nПост будет размещен {post_time}', article['media_content'][0]['url'])
+                        send_test_article(db.get_last_id(), f'*{article["title"]}*\n\n{article["short_data"]}\n\nПост будет размещен {post_time}', article['media_content'][0]['url'])
                         db.close()
                 except Exception as e:
                     logger.error(e)
@@ -127,7 +127,7 @@ def run_posting():
                 post_time = datetime.strptime(article['post_time'], "%Y-%m-%d %H:%M:%S")
             if post_time < datetime.now():
                 try:
-                    send_article(f'*{article['title']}*\n\n{article['text']}', article['photo_url']) # Сдесь настраивать финальный формат постов
+                    send_article(f'*{article["title"]}*\n\n{article["text"]}', article["photo_url"]) # Сдесь настраивать финальный формат постов
                 except Exception as e:
                     logger.warning(e)
                 db = PostDatabase()
