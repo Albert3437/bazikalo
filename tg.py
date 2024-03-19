@@ -1,9 +1,12 @@
+import time
+import configparser
+import telebot
+
 from telebot import types
 
 from db import PostDatabase
 
-import configparser
-import telebot
+
 
 
 config = configparser.ConfigParser()
@@ -21,8 +24,9 @@ def send_test_article(art_id, message, photo_link):
     chat_id = config['Settings']['tg_chat_id']
     
     markup = types.InlineKeyboardMarkup()
-    button = types.InlineKeyboardButton(text="Отменить пост", callback_data=f'disable/{art_id}')
-    markup.add(button)
+    button1 = types.InlineKeyboardButton(text="Отменить пост", callback_data=f'disable/{art_id}')
+    button2 = types.InlineKeyboardButton(text="Запостить многновенно", callback_data=f'post/{art_id}')
+    markup.add(button1, button2)
     # Добавляем форматирование Markdown для выделения текста жирным
     bot.send_photo(chat_id, photo_link, reply_markup=markup, caption=message, parse_mode="Markdown")
 
@@ -49,3 +53,14 @@ def callback_query(call):
         db.close()
         bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=new_markup)
         bot.answer_callback_query(call.id, 'Активировано')
+
+    if 'post' in call.data:
+        bot.answer_callback_query(call.id, 'Пошел нахуй')
+
+
+def bot_run():
+    while True:
+        try:
+            bot.polling(non_stop=True)
+        except:
+            time.sleep(5)

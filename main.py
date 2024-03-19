@@ -74,7 +74,7 @@ def gpt_response(text):
         client = OpenAI(api_key=config['ApiKeys']['gpt_token'])
         response = client.chat.completions.create(model=config['Settings']['gpt_model'],
         messages=[
-            {"role": "system", "content": config['Settings']['gpt_response']},
+            {"role": "system", "content": 'Прочитай наступну статтю і напиши її скорочену версію, що не перевищує 400 символів. Переконайся, що твій текст захоплює увагу читача, містить ключові факти та ідеї оригіналу, і являє собою стислий, але повний виклад матеріалу. Зроби акцент на найбільш важливих і цікавих моментах статті, зберігаючи при цьому точність і фактичну коректність.'},
             {"role": "user", "content": text},
         ])
         return response.choices[0].message.content
@@ -137,7 +137,7 @@ def run_posting():
 
 if __name__ == '__main__':
     main_thread = threading.Thread(target=run)
-    tg_thread = threading.Thread(target=bot.polling)
+    tg_thread = threading.Thread(target=bot_run)
     posting_thread = threading.Thread(target=run_posting)
     main_thread.start()
     tg_thread.start()
@@ -147,10 +147,3 @@ if __name__ == '__main__':
     posting_thread.join()
 
 
-
-# Автоновоснтник работает, теперь надо проработать автопостинг новостей
-# должен быть отдельный поток который будет отслеживать время постинга
-# и если время настало и пост должен быть запощен то он постится, 
-# так же возможно потребуется добавить столбец в базу данных с 
-# в которой будет указано запощена статья или нет,
-# так же надо продумать функцию с определением времени для постинга
